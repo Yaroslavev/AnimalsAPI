@@ -10,5 +10,7 @@ namespace Core.IServices
     public interface IAccountsService
     {
         Task Register(RegisterModel model);
+        Task Login(LoginModel model);
+        Task Logout();
     }
 }

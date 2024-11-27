@@ -5,6 +5,7 @@ using Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Data.Enteties;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AnimalsAPI.Controllers
 {
@@ -19,6 +20,7 @@ namespace AnimalsAPI.Controllers
             return Ok(animals);
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public IActionResult Get([FromRoute] int id)
         {

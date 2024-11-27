@@ -7,6 +7,7 @@ using Data.Enteties;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,8 +23,10 @@ builder.Services.AddDbContext<AnimalsDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddAutoMapper(typeof(AppProfile));
 
-builder.Services.AddIdentityCore<User>(options => 
+builder.Services.AddIdentity<User, IdentityRole>(options => 
     options.SignIn.RequireConfirmedAccount = false)
+    .AddDefaultTokenProviders()
+    .AddSignInManager()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AnimalsDbContext>();
 

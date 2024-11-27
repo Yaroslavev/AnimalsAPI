@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Core.Exceptions;
+using System.Net;
 
 namespace AnimalsAPI
 {
@@ -16,6 +17,10 @@ namespace AnimalsAPI
             try
             {
                 await _next(context);
+            }
+            catch (HttpException ex)
+            {
+                SendResponse(context, ex.Message, ex.StatusCode);
             }
             catch (Exception ex)
             {
