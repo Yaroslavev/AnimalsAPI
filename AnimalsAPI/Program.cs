@@ -9,6 +9,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Cors;
 
 var builder = WebApplication.CreateBuilder(args);
 string connectionString = builder.Configuration.GetConnectionString("LocalDb")!;
@@ -32,6 +33,15 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 
 builder.Services.AddScoped<IAccountsService, AccountsService>();
 
+builder.Services.AddCors(options =>
+    options.AddPolicy("AllowLocalhost", policy => {
+        policy.WithOrigins("http://localhost:5173", "https://localhost:5173", "https://localhost:3000", "http://localhost:3000")
+              .AllowAnyHeader()
+              .AllowCredentials()
+              .AllowAnyMethod();
+    }));
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -44,6 +54,8 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ErrorHandlerMiddleware>();
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowLocalhost");
 
 app.UseAuthorization();
 

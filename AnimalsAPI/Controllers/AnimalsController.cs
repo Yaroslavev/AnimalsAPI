@@ -20,7 +20,6 @@ namespace AnimalsAPI.Controllers
             return Ok(animals);
         }
 
-        [Authorize]
         [HttpGet("{id}")]
         public IActionResult Get([FromRoute] int id)
         {
@@ -33,6 +32,22 @@ namespace AnimalsAPI.Controllers
             }
 
             return Ok(mapper.Map<AnimalModel>(animal));
+        }
+
+        [HttpGet("types")]
+        public IActionResult GetAnimalTypes()
+        {
+            List<AnimalType> types = context.AnimalTypes.ToList();
+
+            return Ok(types);
+        }
+
+        [HttpGet("genders")]
+        public IActionResult GetAnimalGenders()
+        {
+            List<Gender> genders = context.Genders.ToList();
+
+            return Ok(genders);
         }
 
         [HttpPost]
